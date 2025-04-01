@@ -157,6 +157,11 @@ export class ChatInterface {
                     chaussure,
                 } = ensemble
 
+                // Mettre à jour la couleur du canvas
+                if (this.canvasManager) {
+                    this.canvasManager.updateCanvasColor(couleur)
+                }
+
                 // Créer un affichage structuré
                 contentElement.innerHTML = `
                     <div style="border-left: 4px solid ${couleur}; padding-left: 10px;">

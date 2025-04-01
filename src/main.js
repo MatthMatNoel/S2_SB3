@@ -16,6 +16,7 @@ import { TerminalInterface } from "./ui/TerminalInterface.js"
 import { ThemeSelector } from "./ui/ThemeSelector.js"
 import { ModeSelector } from "./ui/ModeSelector.js"
 import { DragAndDropManager } from "./ui/DragAndDropManager.js"
+import { CanvasManager } from "./canvas/CanvasManager.js"
 
 // Attendre que le DOM soit complètement chargé avant d'initialiser l'application
 // document.addEventListener("DOMContentLoaded", () => {
@@ -150,6 +151,19 @@ function start() {
     // Initialize drag and drop for dictionary display
     const dictionaryDisplay = document.getElementById("dictionary-display")
     new DragAndDropManager(dictionaryDisplay, dictManager)
+
+    // Initialize CanvasManager
+    const canvasManager = new CanvasManager()
+
+    // Register the function to update the canvas color
+    functionHandler.registerCanvasColorFunction(canvasManager)
+
+    // Example of calling the function via a JSON response
+    const jsonResponse = JSON.stringify({
+        name: "updateCanvasColor",
+        arguments: { color: "#ff0000" },
+    })
+    functionHandler.processResponse(jsonResponse)
 }
 
 window.addEventListener("DOMContentLoaded", () => {
