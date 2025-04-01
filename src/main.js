@@ -27,38 +27,64 @@ function start() {
     const useJsonMode = savedMode !== null ? savedMode === "true" : false
 
     // Liste des mots autorisés pour le dictionnaire
-    const dictionary = [
-        "Arbre",
-        "Fleur",
-        "Eau",
-        "Soleil",
-        "Vent",
-        "Terre",
-        "Montagne",
-        "Riviere",
-        "Foret",
-        "Ocean",
-        "Plage",
-        "Ciel",
-        "Nuage",
-        "Pluie",
-        "Neige",
-        "Animal",
-        "Oiseau",
-        "Poisson",
-        "Insecte",
-        "Feuille",
-        "Racine",
-        "Fruit",
-        "Graine",
-        "Roche",
-        "Sable",
-        "Etoile",
-        "Lune",
-        "Herbe",
-        "Prairie",
-        "Saison",
-    ]
+    const dictionary = {
+        haut: [
+            {
+                nom: "T-shirt Regular Fit",
+                marque: "H&M",
+                prix: "9.95",
+                couleur: "Blanc",
+            },
+            {
+                nom: "Chemise Slim Fit",
+                marque: "Zara",
+                prix: "29.99",
+                couleur: "Bleu",
+            },
+        ],
+        bas: [
+            {
+                nom: "Pantalon en denim baggy",
+                marque: "Vans",
+                prix: "90.00",
+                couleur: "Bleu",
+            },
+            {
+                nom: "Jupe plissée",
+                marque: "Uniqlo",
+                prix: "39.90",
+                couleur: "Noir",
+            },
+        ],
+        chapeau: [
+            {
+                nom: "Casquette classique",
+                marque: "Nike",
+                prix: "19.99",
+                couleur: "Rouge",
+            },
+            {
+                nom: "Chapeau de paille",
+                marque: "H&M",
+                prix: "14.99",
+                couleur: "Beige",
+            },
+        ],
+        chaussure: [
+            {
+                nom: "Sneakers Air Max",
+                marque: "Nike",
+                prix: "120.00",
+                couleur: "Blanc",
+            },
+            {
+                nom: "Sandales en cuir",
+                marque: "Birkenstock",
+                prix: "89.95",
+                couleur: "Marron",
+            },
+        ],
+    }
 
     // Configuration de l'API LMStudio
     const lmUrl = "http://localhost:1234/v1/chat/completions"
