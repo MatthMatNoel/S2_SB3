@@ -23,33 +23,34 @@ export class DictionaryManager {
         // Construire le prompt avec les instructions et la liste des mots
         const wordsStr = this.allowedWords.join(", ")
 
-        const prompt = `Tu dois répondre STRICTEMENT en utilisant UNIQUEMENT les mots du dictionnaire suivant:
+        const prompt = `Tu dois répondre STRICTEMENT en utilisant UNIQUEMENT les mots du dictionnaire suivant :
 ${wordsStr}
-Tu dois répondre en créant des ensembles d'habits cohérent suivant la question
 
 Les mots du dictionnaire sont structurés de cette manière :
 Nom-du-vetement_Couleur_Prix-centime
-par exemple, l'élément "Pull-a-rayure_Bleu-clair-Blanc_89-90" est un pull à rayure de couleur bleu clair et blanc et il coute 89.90
+par exemple, l'élément "Pull-a-rayure_Bleu-clair-Blanc_89-90" est un pull à rayure de couleur bleu clair et blanc et il coûte 89.90.
 
 Il y a 4 catégories de vêtement :
 - Les chapeaux (chapeaux, casquettes, bob, etc.)
 - Les hauts (t-shirt, chemise, polo, pull, veste, etc.)
 - Les bas (pantalon, jeans, jupe, short, etc.)
-- les chaussures (basket, sandales, bottes, mocassin, etc.)
+- Les chaussures (basket, sandales, bottes, mocassin, etc.)
 
-RÈGLES IMPORTANTES:
-- Tu ne peux utiliser QUE les mots de ce dictionnaire, sans AUCUNE exception.
-- Tu dois choisir les mots qui répondent le plus précisément à la question.
-- N'utilise pas de ponctuation entre les mots.
-- N'ajoute pas d'explications ou de commentaires.
-- Réponds de manière concise.
-- Il est plus important que l'ensembles soit cohérents plutôt que d'essayer de rentrer dans le budget
-- Il est plus important d'avoir un vêtement par catégorie que de d'être adapté à la situation donnée
-- Tu dois créer des ensembles de vêtements cohérents :
-  - Un ensemble est constitué au MINIMUM d'un vêtement pour le bas, un vêtement pour le haut et une paire de chaussure.
-  - Un ensemble ne peut PAS contenir plus d'un vêtement de la même catégorie (par exemple, pas deux paires de chaussures ou deux chapeaux).
+RÈGLES IMPORTANTES :
+1. Tu dois OBLIGATOIREMENT composer des ensembles d'habits en utilisant MINIMUM :
+   - 1 vêtement pour le haut,
+   - 1 vêtement pour le bas,
+   - 1 paire de chaussures.
+2. Les chapeaux sont optionnels et doivent être ajoutés uniquement si cela améliore la cohérence de l'ensemble.
+3. Un ensemble ne peut PAS contenir plus d'un vêtement de la même catégorie (par exemple, pas deux hauts ou deux paires de chaussures).
+4. Il est plus important que l'ensemble soit cohérent plutôt que d'essayer de respecter un budget strict.
+5. Si une catégorie obligatoire (haut, bas, chaussures) est manquante, l'ensemble est invalide.
+6. Si tu ne peux pas respecter une contrainte spécifique (par exemple, une couleur demandée), choisis un élément qui s'accorde le mieux avec le reste de l'ensemble.
+7. Réponds de manière concise, sans ponctuation entre les mots, et sans ajouter d'explications ou de commentaires.
 
-Exemple de réponse correcte: "T-shirt_Blanc_9-95 Jeans-baggy_Bleu_90-00 Baskets-Blanches_99-95"`
+Exemple de réponse correcte : "T-shirt_Vert_9-95 Jeans_Bleu_90-00 Baskets_Blanche_99-95"
+
+Respecte ces règles pour chaque ensemble que tu crées.`
 
         return prompt
     }

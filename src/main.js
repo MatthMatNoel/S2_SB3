@@ -15,7 +15,6 @@ import { MinifyManager } from "./minify/MinifyManager.js"
 import { TerminalInterface } from "./ui/TerminalInterface.js"
 import { ThemeSelector } from "./ui/ThemeSelector.js"
 import { ModeSelector } from "./ui/ModeSelector.js"
-import { DragAndDropManager } from "./ui/DragAndDropManager.js"
 
 // Attendre que le DOM soit complètement chargé avant d'initialiser l'application
 // document.addEventListener("DOMContentLoaded", () => {
@@ -28,36 +27,33 @@ function start() {
 
     // Liste des mots autorisés pour le dictionnaire
     const dictionary = [
+        "Blouson-cuir_Marine_350-00",
+        "Casquette-coton_Gris_55-00",
+        "Chemise_Blanc-casse_34-90",
+        "Chemise-motif-estival_Multicolor_35-30",
+        "Debardeur_Blanc_12-95",
+        "Doudoune-sans-manches_Vert-olive_820-00",
+        "Haut-sans-manches_Noir_35-00",
+        "Jacket-foot_Blanc-Bleu-Rouge_165-00",
+        "Jeans-baggy_Bleu_90-00",
+        "Mocassin-cuir_Noir_138-00",
+        "Pantalon-costume_Noir_49-96",
+        "Pantalon-lin_Beige-fonce_45-95",
+        "Polo_Bleu-clair_39-95",
+        "Polo_Rose-clair_159-00",
+        "Pull-cachemire_Vert-mousse_149-00",
+        "Pull-over-poilu_Beige_37-50",
+        "Pull-rayure_Bleu-clair-Blanc_89-90",
+        "Sneaker_Blanc-casse_37-95",
+        "Sweat-capuche_Orange_129-90",
+        "Sweat-capuche_Vert-fluo_70-00",
         "T-shirt_Blanc_9-95",
         "Trench-coat_Noir_569-00",
-        "Polo_Rose-clair_159-00",
-        "Jeans-baggy_Bleu_90-00",
-        "Pantalon-costum_Noir_49-95",
-        "Chemise_Blanche_29-99",
-        "Robe_Rouge_120-00",
-        "Veste_Grise_89-95",
-        "Short_Bleu-marine_45-50",
-        "Pull_Bordeaux_60-00",
-        "Blouson_Cuir_250-00",
-        "Jupe_Noire_75-00",
-        "Chapeau-Beige_35-00",
-        "Chapeau-de-paille_Vert-clair_25-00",
-        "Casquette-Noire_20-00",
-        "Casquette-Bleue_18-50",
-        "Echarpe-Rayee_20-00",
-        "Gants-Noirs_15-99",
-        "Manteau-en-laine_Gris-foncé_300-00",
-        "Baskets-Blanches_99-95",
-        "Baskets-Noires_89-95",
-        "Sandales-Dorees_49-99",
-        "Sandales-Argentées_55-00",
-        "Chaussures-richelieu_Noir_120-00",
-        "Chaussures-derby_Marron-clair_110-00",
-        "Bottes-en-cuir_Marron-foncé_150-00",
-        "Bottes-plates_Noir_130-00",
-        "Ceinture-Marron_25-00",
-        "Pantalon-chino_Beige_70-00",
-        "Casquette-coton_Gris_55-00",
+        "Vest-costume_Beige_169-95",
+        "Vest-metallisee_Fuchsia_163-00",
+        "Veste-denim_Bleu_139-90",
+        "Veste-karpa_Bleu-canard_210-00",
+        "Veste-laine_Vert-olive_2650-00",
     ]
 
     // Configuration de l'API LMStudio
@@ -120,10 +116,6 @@ function start() {
 
     // 6. Configurer le terminal dans le registre de fonctions
     functionRegistry.initializeTerminal(terminal)
-
-    // Initialize drag and drop for dictionary display
-    const dictionaryDisplay = document.getElementById("dictionary-display")
-    new DragAndDropManager(dictionaryDisplay, dictManager)
 }
 
 window.addEventListener("DOMContentLoaded", () => {
