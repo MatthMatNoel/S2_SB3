@@ -64,7 +64,7 @@ function start() {
         "Veste metallique Rose fonce 163$",
         "Veste jeans Bleu 139$",
         "Veste impermeable Bleu canard 210$",
-        "Veste laine Vert olive 2650$",
+        "Veste costume Vert olive 2650$",
         "Jacket sport Ambre 59$",
         "Jeans baggy Bleu fonce 850$",
         "Jeans baggy Noir 49$",
@@ -83,7 +83,7 @@ function start() {
         "Pantalon cuir Noir 445$",
         "Pantalon evase Marron 19$",
         "Pantalon ski Rouge 1160$",
-        "Pantalon sport Ambre 54$",
+        "Survetement sport Ambre 54$",
         "Pantalon sport Brun fonce 72$",
         "Pantalon sport Orange 72$",
         "Pantalon velour cotele Violet 79$",
@@ -131,6 +131,7 @@ function start() {
         "Bob jeans Bleu 50$",
         "Bob gucci Rose 520$",
         "Beret carreaux Beige 60$",
+        // "Short sport blanc 20$",
     ]
 
     // Configuration de l'API LMStudio

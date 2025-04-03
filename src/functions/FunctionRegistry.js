@@ -54,7 +54,16 @@ export class FunctionRegistry {
 
             creer_ensemble: {
                 handler: (args) => {
-                    const { haut, bas, chaussures, chapeaux, couleur } = args
+                    const {
+                        haut,
+                        bas,
+                        chaussures,
+                        chapeaux,
+                        couleur,
+                        nom,
+                        prix,
+                        description,
+                    } = args
 
                     // Vérifier si une couleur valide est fournie
                     if (couleur && /^#[0-9A-F]{6}$/i.test(couleur)) {
@@ -63,10 +72,48 @@ export class FunctionRegistry {
                             "--color-background",
                             couleur
                         )
+
+                        // Vérifier si la couleur est claire ou foncée
+                        const isLight = this.isColorLight(couleur)
+
+                        // Appliquer le thème correspondant
+                        document.body.classList.remove(
+                            "light-theme",
+                            "dark-theme"
+                        )
+                        document.body.classList.add(
+                            isLight ? "light-theme" : "dark-theme"
+                        )
                     } else {
                         console.warn(
                             "Couleur invalide ou non fournie. La couleur de fond ne sera pas modifiée."
                         )
+                    }
+
+                    // Mettre le nom de l'ensemble
+                    const ensembleNomElement =
+                        document.querySelector(".ensemble-nom")
+                    if (ensembleNomElement) {
+                        ensembleNomElement.textContent =
+                            nom || "Nom de l'ensemble non défini"
+                    }
+
+                    // Mettre le prix de l'ensemble
+                    const ensemblePrixElement =
+                        document.querySelector(".ensemble-prix")
+                    if (ensemblePrixElement) {
+                        ensemblePrixElement.textContent =
+                            prix || "Prix de l'ensemble non défini"
+                    }
+
+                    // Mettre la description de l'ensemble
+                    const ensembleDescriptionElement = document.querySelector(
+                        ".ensemble-description"
+                    )
+                    if (ensembleDescriptionElement) {
+                        ensembleDescriptionElement.textContent =
+                            description ||
+                            "Description de l'ensemble non défini"
                     }
 
                     // Convertir les paramètres string en tableaux
@@ -183,19 +230,16 @@ Utilise ces prix pour créer des ensemble qui corresonde au budget si il est pr�
 
 Tu crée un ensemble de vêtement cohérent en respectant les demandes faites.
 
-Il y a 4 type de vêtement :
-- bas
-- haut
-- chaussures
-- chapeaux
 
-Il ne peut pas y avoir 2 élément du même type dans un ensemble
 
 pour chaque ensemble, j'ai aussi envie que tu me donne une couleurs en hex qui va avec les vêtement que tu à choisi et qui pourrait être mis en fond
 
-pour chaque ensemble, calcule le prix total
+pour chaque ensemble, calcule le prix total.
 
-pour chaque ensemble, donne lui un nom en maximum 2 mots
+pour chaque ensemble, donne lui un nom en maximum 2 mots.
+
+pour chaque ensemble, écrit moi une courte description en quelques phrases de l'ensemble dans sa globalité qui vente les mérite de cet ensemble en mettant en avant les qualité de l'ensemble.
+dans cette description, tu n'as pas besoin de décrire chaque élément de l'ensemble. 
 `,
                 parameters: {
                     bas: {
@@ -227,134 +271,12 @@ pour chaque ensemble, donne lui un nom en maximum 2 mots
                         type: "string",
                         description: "le nom de l'ensemble",
                     },
+                    description: {
+                        type: "string",
+                        description: "la description de l'ensemble",
+                    },
                 },
             },
-
-            // jouer_morceau: {
-            //   handler: (args) => {
-            //     // Cette fonction appelle le serveur Flask pour jouer un morceau dans iTunes
-            //     const result = {
-            //       pending: true,
-            //       message: "Chargement du morceau en cours...",
-            //     };
-            //     this.terminal.showInTerminal("jouer_morceau", args, result);
-
-            //     // Appel au serveur Flask
-            //     fetch(
-            //       "http://localhost:5000/api/play-track?track=" +
-            //         encodeURIComponent(args.track)
-            //     )
-            //       .then((response) => response.json())
-            //       .then((data) => {
-            //         const finalResult = {
-            //           success: data.success,
-            //           message: data.message,
-            //         };
-            //         this.terminal.showInTerminal("jouer_morceau", args, finalResult);
-            //         return finalResult;
-            //       })
-            //       .catch((error) => {
-            //         const errorResult = {
-            //           success: false,
-            //           message: `Erreur lors du chargement du morceau: ${error.message}`,
-            //         };
-            //         this.terminal.showInTerminal("jouer_morceau", args, errorResult);
-            //         return errorResult;
-            //       });
-
-            //     return result;
-            //   },
-            //   description:
-            //     "Joue un morceau dans l'application iTunes sur votre Mac. Actuellement uniquement disponible ces morceaux : 'Winter Sleep (Original Mix)' ou 'Party People' ou le nom de la track demandée expressément par l'utilisateur. Ne jamais retourner un json sans nom de morceau.",
-            //   parameters: {
-            //     track: {
-            //       type: "string",
-            //       description: "Le nom du morceau à jouer. ",
-            //     },
-            //   },
-            // },
-
-            // dessiner_images: {
-            //     handler: (args) => {
-            //         this.terminal.showInTerminal(
-            //             "dessiner_images",
-            //             args,
-            //             "dessiner dans le canvas"
-            //         )
-            //         console.log("args.mots", args.mots)
-            //         this.minifyManager.minimize()
-            //         this.canvasFunctions.clear()
-            //         args.mots.forEach((mot) => {
-            //             this.canvasFunctions.addImage(mot + ".png")
-            //         })
-            //         return "Dessiné dans le canvas"
-            //     },
-            //     description:
-            //         "Traite une réponse en utilisant strictement les mots du dictionnaire.",
-            //     parameters: {
-            //         mots: {
-            //             type: "array",
-            //             description:
-            //                 "Liste des mots du dictionnaire à utiliser dans la réponse.",
-            //             items: {
-            //                 type: "string",
-            //             },
-            //         },
-            //     },
-            // },
-
-            // changer_theme: {
-            //   handler: (args) => {
-            //     // Cette fonction change le thème de l'application
-            //     // en fonction du paramètre theme.
-            //     const theme = args.theme || "theme-light";
-            //     const themes = [
-            //       "theme-light",
-            //       "dark-theme",
-            //       "blue-theme",
-            //       "green-theme",
-            //     ];
-
-            //     // Map des anciens noms de thèmes vers les nouveaux
-            //     const themeMap = {
-            //       light: "theme-light",
-            //       dark: "dark-theme",
-            //       blue: "blue-theme",
-            //       green: "green-theme",
-            //     };
-
-            //     // Convertir l'ancien nom de thème si nécessaire
-            //     const normalizedTheme = themeMap[theme] || theme;
-
-            //     // Vérifier si le thème est valide
-            //     if (!themes.includes(normalizedTheme)) {
-            //       return {
-            //         success: false,
-            //         message: `Thème non valide. Les thèmes disponibles sont: ${themes.join(
-            //           ", "
-            //         )}`,
-            //       };
-            //     }
-
-            //     // Utiliser la fonction globale de changement de thème
-            //     if (typeof window.changeTheme === "function") {
-            //       window.changeTheme(normalizedTheme);
-            //     }
-
-            //     return {
-            //       success: true,
-            //       message: `Thème changé pour: ${normalizedTheme}`,
-            //     };
-            //   },
-            //   description: "Change le thème de l'application",
-            //   parameters: {
-            //     theme: {
-            //       type: "string",
-            //       description:
-            //         "Le thème à appliquer. Valeurs possibles: theme-light, dark-theme, blue-theme, green-theme",
-            //     },
-            //   },
-            // },
         }
     }
 
@@ -365,6 +287,31 @@ pour chaque ensemble, donne lui un nom en maximum 2 mots
      */
     initializeTerminal(terminal) {
         this.terminal = terminal
+    }
+
+    /**
+     * Vérifie si une couleur hexadécimale est claire ou foncée.
+     *
+     * @param {string} hexColor - La couleur en format hexadécimal (ex: "#FFFFFF").
+     * @returns {boolean} - Retourne true si la couleur est claire, false si elle est foncée.
+     */
+    isColorLight(hexColor) {
+        // Vérifier si le format est valide
+        if (!/^#[0-9A-F]{6}$/i.test(hexColor)) {
+            console.warn("Couleur invalide:", hexColor)
+            return false // Considérer comme foncée par défaut
+        }
+
+        // Convertir la couleur hexadécimale en composantes RGB
+        const r = parseInt(hexColor.slice(1, 3), 16)
+        const g = parseInt(hexColor.slice(3, 5), 16)
+        const b = parseInt(hexColor.slice(5, 7), 16)
+
+        // Calculer la luminance relative
+        const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+        // Retourner true si la luminance est supérieure à 128 (clair), sinon false (foncé)
+        return luminance > 128
     }
 
     /**

@@ -1,4 +1,5 @@
 .media-input-button {
+  display: none;
   position: relative;
   background: none;
   border: none;

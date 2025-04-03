@@ -240,6 +240,11 @@ export class ChatInterface {
         // Faire défiler vers le bas
         this.chatDisplay.scrollTop = this.chatDisplay.scrollHeight
 
+        const ensembleInfo = document.querySelector(".ensemble-info")
+        if (ensembleInfo) {
+            ensembleInfo.classList.add("loading-active")
+        }
+
         // Stocker une référence à l'élément pour pouvoir le supprimer plus tard
         this.loadingElement = loadingElement
         return loadingElement
@@ -252,6 +257,11 @@ export class ChatInterface {
         if (this.loadingElement && this.loadingElement.parentNode) {
             this.loadingElement.parentNode.removeChild(this.loadingElement)
             this.loadingElement = null
+        }
+
+        const ensembleInfo = document.querySelector(".ensemble-info")
+        if (ensembleInfo) {
+            ensembleInfo.classList.remove("loading-active")
         }
     }
 
