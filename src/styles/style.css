@@ -85,6 +85,31 @@ input {
   display: grid;
   grid-template-columns: 260px 1fr;
   height: 100vh;
+
+  
+}
+/*halftone */
+.halftone {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 5px, transparent 0);
+  background-size: 60px 60px;
+  background-position: -20px -20px;
+  z-index: -1;
+  animation: move-background 5s linear infinite;
+}
+
+@keyframes move-background {
+  0% {
+    background-position: -20px -20px;
+    /* Position de départ */
+  }
+
+  100% {
+    background-position: 40px 40px;
+    /* Position finale */
+  }
 }
 
 /* Main Content */
@@ -181,18 +206,75 @@ input {
 
 /* ensemble-container */
 .ensemble-container {
-  background: var(--color-background);
   max-height: 100vh;
   width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.ensemble-image-container:nth-child(1),
+.ensemble-image-container:nth-child(1) img {
+  transform-origin: 50% 60%;
+  animation-delay: 0;
+}
+
+.ensemble-image-container:nth-child(2),
+.ensemble-image-container:nth-child(2) img {
+  transform-origin: 50% 40%;
+  animation-delay: 0.2s;
+}
+
+.ensemble-image-container:nth-child(3),
+.ensemble-image-container:nth-child(3) img {
+  transform-origin: 50% 80%;
+  animation-delay: 0.4s;
+}
+
+.ensemble-image-container:nth-child(4),
+.ensemble-image-container:nth-child(4) img {
+  transform-origin: 50% 20%;
+  animation-delay: 0.6s;
+}
+
+.ensemble-image-container {
+  position: absolute;
+  height: 100%;
+  animation: rotate-swing 3s infinite ease-in-out;
 }
 
 .ensemble-image {
-  position: absolute;
   height: 100%;
-  filter: drop-shadow(0px 8px 15px #00000028);
+  filter: drop-shadow(0px 8px 10px #00000053);
+  transform: scale(0);
+  animation: scale-in 0.5s ease-out forwards;
+}
+
+
+
+@keyframes scale-in {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate-swing {
+  0% {
+    transform: rotate(-5deg);
+  }
+
+  50% {
+    transform: rotate(5deg);
+  }
+
+  100% {
+    transform: rotate(-5deg);
+  }
 }
 
 
@@ -202,7 +284,7 @@ input {
   align-items: center;
   padding: var(--space-md);
   border-top: 1px solid var(--color-border);
-  background-color: var(--color-background);
+  /* background-color: var(--color-background); */
   position: relative;
   max-width: 48rem;
   margin: 0 auto;

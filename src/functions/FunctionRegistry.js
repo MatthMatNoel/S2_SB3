@@ -54,13 +54,41 @@ export class FunctionRegistry {
 
             creer_ensemble: {
                 handler: (args) => {
-                    const { mots } = args
+                    const { haut, bas, chaussures, chapeaux, couleur } = args
 
-                    // Vérifier si des mots sont fournis
-                    if (!mots || !Array.isArray(mots) || mots.length === 0) {
+                    // Vérifier si une couleur valide est fournie
+                    if (couleur && /^#[0-9A-F]{6}$/i.test(couleur)) {
+                        // Modifier la variable CSS --color-background
+                        document.documentElement.style.setProperty(
+                            "--color-background",
+                            couleur
+                        )
+                    } else {
+                        console.warn(
+                            "Couleur invalide ou non fournie. La couleur de fond ne sera pas modifiée."
+                        )
+                    }
+
+                    // Convertir les paramètres string en tableaux
+                    const parseItems = (items) =>
+                        items ? items.split(",").map((item) => item.trim()) : []
+
+                    const hautArray = parseItems(haut)
+                    const basArray = parseItems(bas)
+                    const chaussuresArray = parseItems(chaussures)
+                    const chapeauxArray = parseItems(chapeaux)
+
+                    // Vérifier si au moins une catégorie est fournie
+                    if (
+                        hautArray.length === 0 &&
+                        basArray.length === 0 &&
+                        chaussuresArray.length === 0 &&
+                        chapeauxArray.length === 0
+                    ) {
                         const errorResult = {
                             success: false,
-                            message: "Aucun mot fourni pour créer l'ensemble.",
+                            message:
+                                "Aucun élément fourni pour créer l'ensemble.",
                         }
                         this.terminal.showInTerminal(
                             "creer_ensemble",
@@ -82,22 +110,56 @@ export class FunctionRegistry {
                     const ensembleContainer = document.createElement("div")
                     ensembleContainer.classList.add("ensemble-container")
 
-                    // Parcourir les mots et ajouter les images correspondantes
-                    mots.forEach((mot) => {
-                        const imagePath = `public/images/${mot}.png`
-                        const imgElement = document.createElement("img")
-                        imgElement.src = imagePath
-                        imgElement.alt = mot
-                        imgElement.classList.add("ensemble-image")
+                    // Fonction pour transformer un item en nom de fichier d'image
+                    const transformItemToImageName = (item) => {
+                        return (
+                            item
+                                .replace(/\s+/g, "_") // Remplace les espaces par des underscores
+                                .replace(/-/g, "_") + // Remplace les tirets par des underscores
+                            ".png"
+                        ) // Ajoute l'extension .png
+                    }
 
-                        // Ajouter un gestionnaire d'erreur pour les images manquantes
-                        imgElement.onerror = () => {
-                            console.warn(`Image non trouvée pour: ${mot}`)
-                            imgElement.remove()
-                        }
+                    // Fonction pour ajouter des images d'une catégorie
+                    const addImages = (items, category) => {
+                        items.forEach((item) => {
+                            const imageName = transformItemToImageName(item)
+                            const imagePath = `public/images/${imageName}`
 
-                        ensembleContainer.appendChild(imgElement)
-                    })
+                            // Créer un conteneur pour l'image
+                            const imageContainer = document.createElement("div")
+                            imageContainer.classList.add(
+                                "ensemble-image-container"
+                            )
+
+                            const imgElement = document.createElement("img")
+                            imgElement.src = imagePath
+                            imgElement.alt = `${category}: ${item}`
+                            imgElement.classList.add("ensemble-image")
+
+                            // Ajouter un gestionnaire d'erreur pour les images manquantes
+                            imgElement.onerror = () => {
+                                console.warn(
+                                    `Image non trouvée pour: ${imageName}`
+                                )
+                                imgElement.remove()
+                            }
+
+                            // Ajouter l'image au conteneur
+                            imageContainer.appendChild(imgElement)
+
+                            // Ajouter le conteneur au conteneur principal
+                            ensembleContainer.appendChild(imageContainer)
+                        })
+                    }
+
+                    // Ajouter les images pour chaque catégorie
+                    if (basArray.length > 0) addImages(basArray, "bas")
+                    if (hautArray.length > 0) addImages(hautArray, "haut")
+                    if (chaussuresArray.length > 0)
+                        addImages(chaussuresArray, "chaussures")
+                    if (chapeauxArray.length > 0)
+                        addImages(chapeauxArray, "chapeaux")
 
                     // Ajouter le conteneur au DOM
                     const appElement = document.querySelector(".main-content")
@@ -107,7 +169,7 @@ export class FunctionRegistry {
 
                     const result = {
                         success: true,
-                        message: `Ensemble créé avec ${mots.length} éléments.`,
+                        message: `Ensemble créé avec succès.`,
                     }
 
                     // Afficher le résultat dans le terminal
@@ -115,48 +177,55 @@ export class FunctionRegistry {
                     return result
                 },
                 description: `
+Tu dois répondre STRICTEMENT en utilisant UNIQUEMENT les mots du dictionnaire
+Les mots du dictionnaire ont à la fin leur prix en $
+Utilise ces prix pour créer des ensemble qui corresonde au budget si il est précisé
+
 Tu crée un ensemble de vêtement cohérent en respectant les demandes faites.
 
-Les mots du dictionnaire sont structurés de cette manière :
-Nom-du-vetement_Couleur_Prix-centime
-
 Il y a 4 type de vêtement :
-- haut
 - bas
+- haut
 - chaussures
 - chapeaux
 
 Il ne peut pas y avoir 2 élément du même type dans un ensemble
+
+pour chaque ensemble, j'ai aussi envie que tu me donne une couleurs en hex qui va avec les vêtement que tu à choisi et qui pourrait être mis en fond
+
+pour chaque ensemble, calcule le prix total
+
+pour chaque ensemble, donne lui un nom en maximum 2 mots
 `,
                 parameters: {
-                    haut: {
-                        type: "array",
-                        description: "le haut choisi pour l'ensemble",
-                        items: {
-                            type: "string",
-                        },
-                    },
                     bas: {
-                        type: "array",
+                        type: "string",
                         description: "le bas choisi pour l'ensemble",
-                        items: {
-                            type: "string",
-                        },
+                    },
+                    haut: {
+                        type: "string",
+                        description: "le haut choisi pour l'ensemble",
                     },
                     chaussures: {
-                        type: "array",
+                        type: "string",
                         description:
                             "la paire de chaussures choisi pour l'ensemble",
-                        items: {
-                            type: "string",
-                        },
                     },
                     chapeaux: {
-                        type: "array",
+                        type: "string",
                         description: "le chapeaux choisi pour l'ensemble",
-                        items: {
-                            type: "string",
-                        },
+                    },
+                    couleur: {
+                        type: "string",
+                        description: "une couleur de fond en hex",
+                    },
+                    prix: {
+                        type: "string",
+                        description: "le prix total de l'ensemble",
+                    },
+                    nom: {
+                        type: "string",
+                        description: "le nom de l'ensemble",
                     },
                 },
             },

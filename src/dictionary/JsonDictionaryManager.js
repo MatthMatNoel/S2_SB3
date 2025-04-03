@@ -148,7 +148,7 @@ RÈGLES IMPORTANTES:
 9. Si une image est fournie, analyse-la et choisis la fonction la plus appropriée pour répondre à la demande de l'utilisateur.
 
 ${examples}`
-
+        console.log(prompt)
         return prompt
     }
 
