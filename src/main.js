@@ -145,7 +145,7 @@ function start() {
         "Veste peche impermeable Jaune 119$",
         "Chapeau droit Noir 80$",
         "Bonnet pere Noel Rouge 15$",
-        "Botte pere Noel Noir 100$",
+        "Chaussure pere Noel Noir 100$",
         "Pantalon pere Noel Rouge 40$",
         "Veste Pere noel Rouge 70$",
         "Chapeau carnaval venise Bleu Or 13$",
