@@ -240,10 +240,53 @@ export class ChatInterface {
         // Faire défiler vers le bas
         this.chatDisplay.scrollTop = this.chatDisplay.scrollHeight
 
+        // Modifier le contenu de .ensemble-info
+        const ensembleNom = document.querySelector(".ensemble-nom")
+        const ensembleDescription = document.querySelector(
+            ".ensemble-description"
+        )
+        const ensemblePrix = document.querySelector(".ensemble-prix")
+
+        // if (ensembleNom) {
+        //     ensembleNom.textContent = "Chargement..."
+        // }
+        if (ensembleNom) {
+            ensembleNom.innerHTML =
+                'Chargement<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span>'
+        }
+
+        if (ensembleDescription) {
+            ensembleDescription.textContent = ""
+        }
+        if (ensemblePrix) {
+            ensemblePrix.textContent = ""
+        }
+
+        const ensembleImages = document.querySelectorAll(
+            ".ensemble-image-container"
+        )
+        ensembleImages.forEach((image) => {
+            image.classList.add("scale-out")
+        })
+
         const ensembleInfo = document.querySelector(".ensemble-info")
         if (ensembleInfo) {
             ensembleInfo.classList.add("loading-active")
         }
+
+        const inputContainer = document.querySelector(".input-container")
+        if (inputContainer) {
+            inputContainer.style.display = "none"
+        }
+
+        setTimeout(() => {
+            const ensembleContainer = document.querySelector(
+                ".ensemble-container"
+            )
+            if (ensembleContainer) {
+                ensembleContainer.style.display = "none"
+            }
+        }, 500)
 
         // Stocker une référence à l'élément pour pouvoir le supprimer plus tard
         this.loadingElement = loadingElement
@@ -262,6 +305,11 @@ export class ChatInterface {
         const ensembleInfo = document.querySelector(".ensemble-info")
         if (ensembleInfo) {
             ensembleInfo.classList.remove("loading-active")
+        }
+
+        const inputContainer = document.querySelector(".input-container")
+        if (inputContainer) {
+            inputContainer.style.display = "flex"
         }
     }
 

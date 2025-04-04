@@ -60,13 +60,13 @@ function start() {
         "Sweat capuche Vert fluo 70$",
         // "T shirt Blanc 9$",
         "Veste Noir 569$",
-        "Veste costume Beige 169$",
+        "Blason costume Beige 169$",
         "Veste metallique Rose fonce 163$",
         "Veste jeans Bleu 139$",
         "Veste impermeable Bleu canard 210$",
-        "Veste costume Vert olive 2650$",
+        "Blason costume gucci Vert olive 2650$",
         "Jacket sport Ambre 59$",
-        "Jeans baggy Bleu fonce 850$",
+        "Jeans luxe gucci Bleu fonce 850$",
         "Jeans baggy Noir 49$",
         "Jeans baggy Rose 105$",
         "Jeans cargo Bleu clair 144$",
@@ -131,7 +131,11 @@ function start() {
         "Bob jeans Bleu 50$",
         "Bob gucci Rose 520$",
         "Beret carreaux Beige 60$",
-        // "Short sport blanc 20$",
+        "Chemise classe Noir 56$",
+        "Salopette jeans Bleu 130$",
+        "T shirt classic Rouge 18$",
+        "T shirt oversize Blanc 18$",
+        "Short sport nike Noir 40$",
     ]
 
     // Configuration de l'API LMStudio
@@ -200,3 +204,25 @@ function start() {
 window.addEventListener("DOMContentLoaded", () => {
     start()
 })
+
+const prix = document.querySelector(".ensemble-prix")
+const prixIndividuel = document.querySelector(".prix-individuel")
+const ensembleContainer = document.querySelector(".ensemble-container")
+
+prix.addEventListener("mouseover", () => {
+    prixIndividuel.classList.add("visible")
+})
+
+prix.addEventListener("mouseout", () => {
+    prixIndividuel.classList.remove("visible")
+})
+
+if (ensembleContainer) {
+    ensembleContainer.addEventListener("mouseover", () => {
+        prixIndividuel.classList.add("visible")
+    })
+
+    ensembleContainer.addEventListener("mouseout", () => {
+        prixIndividuel.classList.remove("visible")
+    })
+}

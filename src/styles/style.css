@@ -1,18 +1,18 @@
 /* ChatGPT-inspired Design System */
 :root {
   /* Colors */
-  --color-primary: #000000; /* ChatGPT green */
-  --color-secondary: #e3e3e3;
-  --color-background: #D1D1D1;
+  --color-primary: #e3e3e3; /* ChatGPT green */
+  --color-secondary: #00000055;
+  --color-background: #e3e3e3;
   --color-text: var(--color-primary);
   --color-text-light: #D1D1D1;
   --color-border: #e5e5e5;
   --color-user-bg: #ececf1; /* Light gray for user bubbles */
   --color-assistant-bg: #D1D1D1; /* White for assistant bubbles */
-  --color-hover: #f0f0f0;
-  --color-active: #e0e0e0;
+  --color-hover: #ffffff;
+  --color-active: #ffffff;
   --color-disabled: #ececf1;
-  --color-dot: rgba(255, 255, 255, 0.1);
+  --color-dot: rgba(0, 0, 0, 0.03);
   
   /* Typography */
   --font-primary: 'Outfit',sans-serif;
@@ -173,7 +173,7 @@ input {
   overflow-y: auto;
   padding: var(--space-md) 0;
   scroll-behavior: smooth;
-  display: none;
+  display: flex;
   flex-direction: column;
   width: 100%;
 }
@@ -278,6 +278,9 @@ input {
   animation: scale-in 0.5s ease-out forwards;
 }
 
+.ensemble-image-container.scale-out {
+  animation: scale-out 0.3s ease-in forwards;
+}
 
 
 @keyframes scale-in {
@@ -287,6 +290,16 @@ input {
 
   to {
     transform: scale(1);
+  }
+}
+
+@keyframes scale-out {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0);
   }
 }
 
@@ -316,6 +329,7 @@ input {
   /* filter: drop-shadow(0px 8px 10px #00000053); */
   box-shadow: var(--shadow-md);
   max-width: 48rem;
+  /* transition: 0.5s; */
 }
 
 .ensemble-info.loading-active {
@@ -336,11 +350,109 @@ input {
   }
 }
 
-.ensemble-description {
-  font-size: 16px;
+.dot1,
+.dot2,
+.dot3 {
+  display: inline-block;
+  animation: bounce 2s infinite ease-in-out;
 }
 
-/* ======================================= Loader ======================================= */
+.dot1 {
+  animation-delay: 0.3s;
+}
+
+.dot2 {
+  animation-delay: 0.6s;
+}
+
+.dot3 {
+  animation-delay: 0.9s;
+}
+
+@keyframes bounce {
+
+  0%{
+    transform: translateY(0);
+  }
+    30% {
+      transform: translateY(0);
+    }
+
+  50% {
+    transform: translateY(-15px);
+  }
+    70% {
+      transform: translateY(0);
+    }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.ensemble-description {
+  font-size: 20px;
+  /* font-weight: 100; */
+  line-height: auto;
+}
+
+/* ------ prix ------ */
+
+.ensemble-prix:hover {
+  cursor: pointer;
+}
+
+.prix-individuel {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 41vw;
+  color: var(--color-secondary);
+  font-size: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  transition-duration: 0.5s;
+}
+
+.prix-individuel.visible {
+  opacity: 1;
+}
+
+
+.prix-individuel p {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.prix-individuel p::after {
+  content: '';
+  float: right;
+  display: block;
+  position: absolute;
+  top: 2rem;
+  left: -15vw;
+  background-color: var(--color-secondary);
+  height: 1px;
+  width: 0;
+}
+
+.prix-individuel.visible p::after {
+  animation: line-grow 0.5s forwards;
+}
+
+@keyframes line-grow {
+  from {
+    width: 0;
+  }
+  to {
+    width: 17.5vw;
+  }
+}
+
+/* ======================================= Border ======================================= */
 
 .loader {
   position: fixed;
@@ -384,11 +496,15 @@ input {
   font-size: 1rem;
   resize: none;
   background-color: var(--color-background);
-  color: var(--color-text);
+  color: var(--color-secondary);
   min-height: 24px;
   max-height: 200px;
   /* overflow-y: auto; */
   line-height: 1.5;
+}
+
+.input-area::placeholder {
+  color: var(--color-secondary);
 }
 
 .input-area:focus {

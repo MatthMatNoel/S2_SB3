@@ -116,6 +116,27 @@ export class FunctionRegistry {
                             "Description de l'ensemble non défini"
                     }
 
+                    // Fonction pour extraire le prix d'un élément
+                    const extractPrice = (item) => {
+                        const match = item.match(/\d+\$/)
+                        return match ? match[0] : "0$"
+                    }
+
+                    // Mettre à jour les prix individuels
+                    const updatePriceElement = (selector, items) => {
+                        const element = document.querySelector(selector)
+                        if (element) {
+                            const totalPrice = items
+                                .map(extractPrice)
+                                .reduce(
+                                    (sum, price) =>
+                                        sum + parseInt(price.replace("$", "")),
+                                    0
+                                )
+                            element.textContent = `${totalPrice}$`
+                        }
+                    }
+
                     // Convertir les paramètres string en tableaux
                     const parseItems = (items) =>
                         items ? items.split(",").map((item) => item.trim()) : []
@@ -124,6 +145,32 @@ export class FunctionRegistry {
                     const basArray = parseItems(bas)
                     const chaussuresArray = parseItems(chaussures)
                     const chapeauxArray = parseItems(chapeaux)
+
+                    // Mettre à jour les prix individuels dans le DOM
+                    updatePriceElement(".prix-haut", hautArray)
+                    updatePriceElement(".prix-bas", basArray)
+                    updatePriceElement(".prix-chaussures", chaussuresArray)
+                    updatePriceElement(".prix-chapeau", chapeauxArray)
+
+                    // Vérifier si au moins une catégorie est fournie
+                    if (
+                        hautArray.length === 0 &&
+                        basArray.length === 0 &&
+                        chaussuresArray.length === 0 &&
+                        chapeauxArray.length === 0
+                    ) {
+                        const errorResult = {
+                            success: false,
+                            message:
+                                "Aucun élément fourni pour créer l'ensemble.",
+                        }
+                        this.terminal.showInTerminal(
+                            "creer_ensemble",
+                            args,
+                            errorResult
+                        )
+                        return errorResult
+                    }
 
                     // Vérifier si au moins une catégorie est fournie
                     if (
@@ -226,18 +273,13 @@ export class FunctionRegistry {
                 description: `
 Tu dois répondre STRICTEMENT en utilisant UNIQUEMENT les mots du dictionnaire
 Les mots du dictionnaire ont à la fin leur prix en $
-Utilise ces prix pour créer des ensemble qui corresonde au budget si il est précisé
 
 Tu crée un ensemble de vêtement cohérent en respectant les demandes faites.
-
-
+Prends en compte le prix des vêtement quand on te donne le contexte
 
 pour chaque ensemble, j'ai aussi envie que tu me donne une couleurs en hex qui va avec les vêtement que tu à choisi et qui pourrait être mis en fond
-
 pour chaque ensemble, calcule le prix total.
-
 pour chaque ensemble, donne lui un nom en maximum 2 mots.
-
 pour chaque ensemble, écrit moi une courte description en quelques phrases de l'ensemble dans sa globalité qui vente les mérite de cet ensemble en mettant en avant les qualité de l'ensemble.
 dans cette description, tu n'as pas besoin de décrire chaque élément de l'ensemble. 
 `,
