@@ -247,14 +247,9 @@ export class ChatInterface {
         )
         const ensemblePrix = document.querySelector(".ensemble-prix")
 
-        // if (ensembleNom) {
-        //     ensembleNom.textContent = "Chargement..."
-        // }
         if (ensembleNom) {
-            ensembleNom.innerHTML =
-                'Chargement<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span>'
+            ensembleNom.textContent = ""
         }
-
         if (ensembleDescription) {
             ensembleDescription.textContent = ""
         }
@@ -269,9 +264,10 @@ export class ChatInterface {
             image.classList.add("scale-out")
         })
 
-        const ensembleInfo = document.querySelector(".ensemble-info")
-        if (ensembleInfo) {
-            ensembleInfo.classList.add("loading-active")
+        const chatConainer = document.querySelector(".chat-container")
+        if (chatConainer) {
+            chatConainer.style.opacity = "0"
+            chatConainer.classList.remove("apparition")
         }
 
         const inputContainer = document.querySelector(".input-container")
@@ -284,9 +280,34 @@ export class ChatInterface {
                 ".ensemble-container"
             )
             if (ensembleContainer) {
+                ensembleContainer.classList.remove("is-loading")
                 ensembleContainer.style.display = "none"
             }
         }, 500)
+
+        // Loader
+        const loader = document.querySelector(".loader")
+        if (loader) {
+            // Liste des GIFs disponibles
+            const gifs = [
+                "SB3_Loading_GIF_01.gif",
+                "SB3_Loading_GIF_02.gif",
+                "SB3_Loading_GIF_03.gif",
+                "SB3_Loading_GIF_04.gif",
+            ]
+
+            // Sélectionner un GIF au hasard
+            const randomGif = gifs[Math.floor(Math.random() * gifs.length)]
+
+            loader.innerHTML = `
+            <div class="loader-container">
+                Outfit in progress<span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span>
+            </div>
+            <img src="./public/gif/${randomGif}" alt="Chargement..." class="loading-gif">
+        `
+            loader.classList.add("loading-active")
+            loader.style.display = "flex"
+        }
 
         // Stocker une référence à l'élément pour pouvoir le supprimer plus tard
         this.loadingElement = loadingElement
@@ -302,15 +323,32 @@ export class ChatInterface {
             this.loadingElement = null
         }
 
-        const ensembleInfo = document.querySelector(".ensemble-info")
-        if (ensembleInfo) {
-            ensembleInfo.classList.remove("loading-active")
+        const chatConainer = document.querySelector(".chat-container")
+        if (chatConainer) {
+            // chatConainer.style.opacity = "1"
+            chatConainer.classList.add("apparition")
         }
 
         const inputContainer = document.querySelector(".input-container")
         if (inputContainer) {
             inputContainer.style.display = "flex"
         }
+
+        const loader = document.querySelector(".loader")
+        if (loader) {
+            loader.innerHTML = ""
+            loader.classList.remove("loading-active")
+            loader.style.display = "none"
+        }
+
+        setTimeout(() => {
+            const ensembleContainer = document.querySelector(
+                ".ensemble-container"
+            )
+            if (ensembleContainer) {
+                ensembleContainer.classList.add("is-loading")
+            }
+        }, 500)
     }
 
     /**

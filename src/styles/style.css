@@ -31,8 +31,11 @@
   --border-radius-lg: 0.75rem;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-xl: 0px 8px 10px #00000053
+  --shadow-xl: 0px 8px 10px #00000053;
   --max-width: 48rem;
+
+  /* animation */
+  --easeOutExpo: cubic-bezier(0.190, 1.000, 0.220, 1.000);
 }
 
 @font-face {
@@ -173,7 +176,7 @@ input {
   overflow-y: auto;
   padding: var(--space-md) 0;
   scroll-behavior: smooth;
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 100%;
 }
@@ -238,7 +241,23 @@ input {
   align-items: center;
   position: relative;
   margin: 1rem;
-  transform: translate(5rem, -1rem);
+  /* transform: translate(5vw, -1rem); */
+    transform: translate(25vw, -1rem);
+}
+
+.ensemble-container.is-loading {
+  animation: is-loading 1s cubic-bezier(0.770, 0.000, 0.175, 1.000) forwards;
+  animation-delay: 1s;
+}
+
+@keyframes is-loading {
+  from {
+    transform: translate(25vw, -1rem);
+  }
+
+  to {
+    transform: translate(5vw, -1rem);
+  }
 }
 
 .ensemble-image-container:nth-child(1),
@@ -275,7 +294,7 @@ input {
   height: 100%;
   filter: drop-shadow(0px 8px 10px #00000053);
   transform: scale(0);
-  animation: scale-in 0.5s ease-out forwards;
+  animation: scale-in 0.75s var(--easeOutExpo) forwards;
 }
 
 .ensemble-image-container.scale-out {
@@ -329,64 +348,20 @@ input {
   /* filter: drop-shadow(0px 8px 10px #00000053); */
   box-shadow: var(--shadow-md);
   max-width: 48rem;
-  /* transition: 0.5s; */
 }
 
-.ensemble-info.loading-active {
-  animation: breath 2s infinite ease-in-out;
+.apparition {
+  animation: apparition-right-left 1.5s forwards cubic-bezier(0.190, 1.000, 0.220, 1.000);
+  animation-delay: 2s;
 }
 
-@keyframes breath {
-  0% {
-    transform: scale(1);
+@keyframes apparition-right-left {
+  from {
+    opacity: 0;
   }
 
-  50% {
-    transform: scale(0.95);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-.dot1,
-.dot2,
-.dot3 {
-  display: inline-block;
-  animation: bounce 2s infinite ease-in-out;
-}
-
-.dot1 {
-  animation-delay: 0.3s;
-}
-
-.dot2 {
-  animation-delay: 0.6s;
-}
-
-.dot3 {
-  animation-delay: 0.9s;
-}
-
-@keyframes bounce {
-
-  0%{
-    transform: translateY(0);
-  }
-    30% {
-      transform: translateY(0);
-    }
-
-  50% {
-    transform: translateY(-15px);
-  }
-    70% {
-      transform: translateY(0);
-    }
-
-  100% {
-    transform: translateY(0);
+  to {
+    opacity: 1;
   }
 }
 
@@ -396,11 +371,12 @@ input {
   line-height: auto;
 }
 
+.ensemble-container:hover {
+  /* cursor: pointer; */
+}
+
 /* ------ prix ------ */
 
-.ensemble-prix:hover {
-  cursor: pointer;
-}
 
 .prix-individuel {
   opacity: 0;
@@ -452,9 +428,115 @@ input {
   }
 }
 
-/* ======================================= Border ======================================= */
+/* ======================================= Loader ======================================= */
 
 .loader {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  /* left: 50%;
+  top: 50%; */
+  font-size: 75px;
+  font-weight: 600;
+  line-height: 1.25;
+  display: none;
+  z-index: 10;
+}
+
+.loader-container {
+  /* transform: translate(-50%, -50%); */
+  background-color: var(--color-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+  animation: breath 2s infinite ease-in-out;
+  z-index: 10;
+}
+
+.loading-active {
+  animation: loading-appear 0.5s forwards;
+}
+
+@keyframes breath {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes loading-appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+.dot1,
+.dot2,
+.dot3 {
+  display: inline-block;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+.dot1 {
+  animation-delay: 0.3s;
+}
+
+.dot2 {
+  animation-delay: 0.6s;
+}
+
+.dot3 {
+  animation-delay: 0.9s;
+}
+
+@keyframes bounce {
+
+  0% {
+    transform: translateY(0);
+  }
+
+  30% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+  70% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.loading-gif {
+  position: absolute;
+  height: 80%;
+  z-index: 1;
+}
+
+/* ======================================= Border ======================================= */
+
+.border {
   position: fixed;
   height: 100%;
   width: 100%;
@@ -462,7 +544,7 @@ input {
   padding: 3rem;
 }
 
-.loader::before {
+.border::before {
   content: '';
   border: 1px var(--color-secondary) solid;
   border-radius: 2rem;

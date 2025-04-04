@@ -133,9 +133,28 @@ function start() {
         "Beret carreaux Beige 60$",
         "Chemise classe Noir 56$",
         "Salopette jeans Bleu 130$",
-        "T shirt classic Rouge 18$",
-        "T shirt oversize Blanc 18$",
+        "T shirt Rouge 18$",
+        "T shirt Blanc 18$",
         "Short sport nike Noir 40$",
+        "Chapeau cowboy Brun 120$",
+        "Chapeau peche Vert olive 39$",
+        "Chaussure marche Vert olive 179$",
+        "Veste aventurier Beige 84$",
+        "Pantalon cargo aventure Brun 59$",
+        "Pantalon cargo peche Vert sarcelle 35$",
+        "Veste peche impermeable Jaune 119$",
+        "Chapeau droit Noir 80$",
+        "Bonnet pere Noel Rouge 15$",
+        "Botte pere Noel Noir 100$",
+        "Pantalon pere Noel Rouge 40$",
+        "Veste Pere noel Rouge 70$",
+        "Chapeau carnaval venise Bleu Or 13$",
+        "Chapeau chirurgical Bleu clair 1$",
+        "Deguisement chemise carnaval Or 18$",
+        "Deguisement pantalon carnaval Or 15$",
+        "Pullover Vert fonce 35$",
+        "Veste impermeable peche Verte kaki 60$",
+        "Chapeau aventurier Brun 77$",
     ]
 
     // Configuration de l'API LMStudio
@@ -207,22 +226,58 @@ window.addEventListener("DOMContentLoaded", () => {
 
 const prix = document.querySelector(".ensemble-prix")
 const prixIndividuel = document.querySelector(".prix-individuel")
-const ensembleContainer = document.querySelector(".ensemble-container")
 
-prix.addEventListener("mouseover", () => {
+// prix.addEventListener("mouseover", () => {
+//     prixIndividuel.classList.add("visible")
+// })
+
+// prix.addEventListener("mouseout", () => {
+//     prixIndividuel.classList.remove("visible")
+// })
+
+// Utiliser un MutationObserver pour surveiller les ajouts et suppressions de .ensemble-container
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+            if (
+                node.classList &&
+                node.classList.contains("ensemble-container")
+            ) {
+                attachEnsembleContainerListeners(node)
+            }
+        })
+
+        mutation.removedNodes.forEach((node) => {
+            if (
+                node.classList &&
+                node.classList.contains("ensemble-container")
+            ) {
+                detachEnsembleContainerListeners(node)
+            }
+        })
+    })
+})
+
+// Observer les changements dans le DOM
+observer.observe(document.body, { childList: true, subtree: true })
+
+// Fonction pour attacher les écouteurs d'événements à .ensemble-container
+function attachEnsembleContainerListeners(container) {
+    container.addEventListener("mouseover", handleMouseOver)
+    container.addEventListener("mouseout", handleMouseOut)
+}
+
+// Fonction pour détacher les écouteurs d'événements de .ensemble-container
+function detachEnsembleContainerListeners(container) {
+    container.removeEventListener("mouseover", handleMouseOver)
+    container.removeEventListener("mouseout", handleMouseOut)
+}
+
+// Gestionnaires d'événements
+function handleMouseOver() {
     prixIndividuel.classList.add("visible")
-})
+}
 
-prix.addEventListener("mouseout", () => {
+function handleMouseOut() {
     prixIndividuel.classList.remove("visible")
-})
-
-if (ensembleContainer) {
-    ensembleContainer.addEventListener("mouseover", () => {
-        prixIndividuel.classList.add("visible")
-    })
-
-    ensembleContainer.addEventListener("mouseout", () => {
-        prixIndividuel.classList.remove("visible")
-    })
 }
